@@ -1,17 +1,27 @@
-FROM node:18.0.0-alpine
+# Stage 1: Build phase
+FROM node:18 as builder
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
 
-RUN mkdir -p /usr/src/app
+# Stage 2: Run phase
+FROM node:18-alpine
 WORKDIR /usr/src/app
 
-COPY . .
-ENV NODE_OPTIONS=--openssl-legacy-provider
+# Copy only necessary files from builder
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY --from=builder /usr/src/app/public ./public
+COPY --from=builder /usr/src/app/.next ./.next
+COPY --from=builder /usr/src/app/next.config.js ./
+COPY --from=builder /usr/src/app/package*.json ./
 
+# Set runtime environment variables
+ENV NODE_ENV=production
+ENV NODE_OPTIONS=--openssl-legacy-provider
 ARG API_KEY
 ENV TMDB_KEY=${API_KEY}
-
-RUN npm install
-
-RUN npm run build
 
 EXPOSE 3000
 
