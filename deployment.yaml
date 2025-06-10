@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextflix-app
+  labels:
+    app: nextflix
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nextflix
+  template:
+    metadata:
+      labels:
+        app: nextflix
+    spec:
+      containers:
+      - name: nextflix
+        image: your-dockerhub-username/nextflix:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: PORT
+          value: "3000"
