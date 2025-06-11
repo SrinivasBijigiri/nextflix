@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nextflix
-        image: your-dockerhub-username/nextflix:latest
+        image: mike4466/nextflix:latest
         ports:
         - containerPort: 3000
         env:
