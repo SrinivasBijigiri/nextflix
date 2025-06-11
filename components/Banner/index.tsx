@@ -33,7 +33,7 @@ export default function Banner() {
 
   return (
     <div className={styles.spotlight}>
-      <img src={media?.banner} alt='spotlight' className={styles.spotlight__image} />
+      <img src={`/assets/${media?.banner}`} alt='spotlight' className={styles.spotlight__image} />
       <div className={styles.spotlight__details}>
         <div className={styles.title}>{media?.title}</div>
         <div className={styles.synopsis}>{media?.overview}</div>
